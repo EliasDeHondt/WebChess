@@ -5,7 +5,8 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Introduction](#🖖introduction)
-3. [🔗Links](#🔗links)
+3. [📚How to deploy](#📚how-to-deploy)
+4. [🔗Links](#🔗links)
 
 ---
 
@@ -18,6 +19,12 @@ Please also see following documents:
 - [SECURITY](SECURITY.md)
 - [CONTRIBUTING](CONTRIBUTING.md)
 - [CODE OF CONDUCT](CODE-OF-CONDUCT.md)
+
+## 📚How to deploy
+
+```bash
+sudo helm install ...
+```
 
 ## 🔗Links
 - 👯 Web hosting company [EliasDH.com](https://eliasdh.com).

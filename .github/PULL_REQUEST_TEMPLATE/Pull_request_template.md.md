@@ -6,6 +6,7 @@
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Introduction](#🖖introduction)
 3. [📚To Do](#📚to-do)
+4. [🔗Links](#🔗links)
 
 ---
 
@@ -17,3 +18,7 @@ This is a **Merge Request** that is in need of your attention. The person whe cr
 - [ ] Test the code
 - [ ] Review the code
 - [ ] Merge the code
+
+## 🔗Links
+- 👯 Web hosting company [EliasDH.com](https://eliasdh.com).
+- 📫 How to reach us elias.dehondt@outlook.com

@@ -36,4 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_YAML: true
-          VALIDATE_YAML_FILES: "kubernetes/**/*"
+          VALIDATE_YAML_FILES: "Helm/**/*"

@@ -1,0 +1,45 @@
+############################
+# @author Elias De Hondt   #
+# @see https://eliasdh.com #
+# @since 01/01/2025        #
+############################
+name: Build and Push Docker Images to GHCR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2
+      - name: Set username to lowercase
+        id: set-lowercase
+        run: echo "LOWERCASE_USERNAME=$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      # Step 3: Login to GHCR
+      - name: Login to GHCR
+        run: |
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.LOWERCASE_USERNAME }} --password-stdin
+
+      # Step 4: Build and push the frontend image
+      - name: Build and push frontend image
+        run: |
+            docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/frontend:latest ./App/Frontend
+            docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/frontend:latest
+
+      # Step 5: Build and push the backend image
+      - name: Build and push backend image
+        run: |
+            docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/backend:latest ./App/Backend
+            docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/backend:latest
