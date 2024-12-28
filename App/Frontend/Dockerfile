@@ -11,6 +11,7 @@ LABEL version="1.0"
 LABEL description="This is the frontend image for the app."
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 COPY ./assets /usr/share/nginx/html/assets
 
