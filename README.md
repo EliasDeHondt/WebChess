@@ -27,9 +27,9 @@ Please also see following documents:
 kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/ChessK8s.yaml
 ```
 
-- Step 2: Get the external IP of the application:
+- Step 2: Get the ingress:
 ```bash
-kubectl get svc -n k10s-namespaces
+kubectl get ingress
 ```
 
 ## 🔗Links
