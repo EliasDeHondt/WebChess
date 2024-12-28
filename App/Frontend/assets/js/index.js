@@ -11,6 +11,23 @@ document.addEventListener('DOMContentLoaded', function() {
     loadChessboard();
 });
 
+// Reset the chessboard
+async function resetChessboard() {
+    try {
+        const response = await fetch('http://localhost:5000/reset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') loadChessboard();
+        else alert('There is a problem resetting the board.');
+
+    } catch (error) {
+        console.error('Error while resetting the board:', error);
+    }
+}
+
 // Images for the chess pieces
 const pieceImages = {
     'R': 'rook-dark.png',
@@ -27,12 +44,22 @@ const pieceImages = {
     'p': 'pawn-light.png',
 };
 
-/**
- * Loads the chessboard from the server and renders it on the page.
- *
- * @throws {Error}
- *   If there is an error loading the chessboard.
- */
+let isFlipped = localStorage.getItem('isFlipped') === 'true';
+
+function flipBoard() {
+    isFlipped = !isFlipped;
+    localStorage.setItem('isFlipped', isFlipped);
+    updateBoardOrientation();
+}
+
+function updateBoardOrientation() {
+    const chessboard = document.getElementById('chessboard');
+    const rows = Array.from(chessboard.children);
+
+    rows.reverse();
+    rows.forEach(row => chessboard.appendChild(row));
+}
+
 async function loadChessboard() {
     try {
         const response = await fetch('http://localhost:5000/chessboard');
@@ -68,15 +95,10 @@ async function loadChessboard() {
     } catch (error) {
         console.error('Error loading chessboard:', error);
     }
+    
+    if (isFlipped) updateBoardOrientation();
 }
 
-/**
- * Initiates the drag-and-drop operation by setting the data transfer object
- * with the piece being dragged and its source position on the chessboard.
- *
- * @param {DragEvent} event
- *   The dragstart event containing the target element being dragged.
- */
 function onDragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.dataset.piece);
     event.dataTransfer.setData('source', JSON.stringify({
@@ -85,28 +107,10 @@ function onDragStart(event) {
     }));
 }
 
-/**
- * Prevents the default action of a dragover event, which is to open a file when
- * it is dropped onto the browser window. This is necessary because we want to
- * handle the drop event ourselves.
- *
- * @param {DragEvent} event
- *   The dragover event.
- */
 function onDragOver(event) {
     event.preventDefault();
 }
 
-/**
- * Handles the drop event during a drag-and-drop operation.
- *
- * @param {DragEvent} event
- *   The drop event containing information about the source and target of the drag.
- *
- * Prevents the default behavior of the drop event, retrieves the piece being moved
- * and its source position, determines the target position, and initiates a move
- * on the chessboard by calling the makeMove function.
- */
 function onDrop(event) {
     event.preventDefault();
 
@@ -120,19 +124,6 @@ function onDrop(event) {
     makeMove(source, target, piece);
 }
 
-/**
- * Makes a move on the chessboard.
- *
- * @param {{row: number, col: number}} source
- *   The source position of the piece to be moved.
- * @param {{row: number, col: number}} target
- *   The target position of the piece to be moved.
- * @param {string} piece
- *   The piece to be moved.
- *
- * @throws {Error}
- *   If there is an error with the move.
- */
 async function makeMove(source, target, piece) {
     try {
         const response = await fetch('http://localhost:5000/move', {
@@ -142,36 +133,10 @@ async function makeMove(source, target, piece) {
         });
 
         const result = await response.json();
-        if (result.status === 'success') {
-            loadChessboard();
-        } else {
-            alert('Invalid move!');
-        }
+        if (result.status === 'success') loadChessboard();
+        else alert('Invalid move!');
+
     } catch (error) {
         console.error('Error making move:', error);
-    }
-}
-
-/**
- * Resets the chessboard to its initial state by sending a POST request
- * to the backend '/reset' endpoint. If the reset is successful, it reloads
- * the chessboard. Otherwise, it alerts the user about a problem with resetting.
- * Logs an error message if the request fails.
- */
-async function resetChessboard() {
-    try {
-        const response = await fetch('http://localhost:5000/reset', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-            loadChessboard();
-        } else {
-            alert('There is a problem resetting the board.');
-        }
-    } catch (error) {
-        console.error('Error while resetting the board:', error);
     }
 }
