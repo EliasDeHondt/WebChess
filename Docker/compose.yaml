@@ -1,0 +1,25 @@
+############################
+# @author Elias De Hondt   #
+# @see https://eliasdh.com #
+# @since 01/01/2025        #
+############################
+# sudo docker compose -f compose.yaml up -d
+# sudo docker compose -f compose.yaml down
+name: chessk8s
+
+services:
+  # Backend Service
+  backend:
+    image: ghcr.io/eliasdehondt/chessk8s-backend:latest
+    container_name: chessk8s-backend
+    network_mode: "host"
+    extra_hosts:
+      - "chessk8s-frontend:127.0.0.1"
+
+  # Frontend Service
+  frontend:
+    image: ghcr.io/eliasdehondt/chessk8s-frontend:latest
+    container_name: chessk8s-frontend
+    network_mode: "host"
+    extra_hosts:
+      - "chessk8s-backend:127.0.0.1"

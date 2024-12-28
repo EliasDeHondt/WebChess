@@ -22,14 +22,33 @@ Please also see following documents:
 
 ## 📚How to deploy
 
+### 🚀Kubernetes
+
 - Step 1: Deploy the application:
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/ChessK8s.yaml
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/kubernetes.yaml
 ```
 
 - Step 2: Get the ingress:
 ```bash
 kubectl get ingress
+```
+
+- If you want to delete the deployment:
+```bash
+kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/kubernetes.yaml
+```
+
+### 🚀Docker
+
+- Step 1: Deploy the application:
+```bash
+curl -s https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Docker/compose.yaml | sudo docker compose -f - up -d
+```
+
+- If you want to delete the deployment:
+```bash
+curl -s https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Docker/compose.yaml | sudo docker compose -f - down
 ```
 
 ## 🔗Links
