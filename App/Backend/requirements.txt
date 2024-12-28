@@ -3,5 +3,5 @@
 # @see https://eliasdh.com #
 # @since 01/01/2025        #
 ############################
-Flask==3.0.3
+flask==3.0.3
 flask_cors==5.0.0
