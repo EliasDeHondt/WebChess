@@ -8,14 +8,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ChessK8s
+  name: chessk8s
   labels:
-    name: ChessK8s
-    app: ChessK8s
+    name: chessk8s
+    app: chessk8s
     owner: EliasDH
     environment: production
   annotations:
-    description: This namespace is used for the ChessK8s application.
+    description: This namespace is used for the chessk8s application.
     contact: info@eliasdh.com
 ---
 # Backend Deployment
@@ -23,7 +23,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: chessk8s-backend
-  namespace: ChessK8s
+  namespace: chessk8s
   labels:
     app: chessk8s-backend
 spec:
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: chessk8s-backend
-  namespace: ChessK8s
+  namespace: chessk8s
 spec:
   selector:
     app: chessk8s-backend
@@ -61,7 +61,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: chessk8s-frontend
-  namespace: ChessK8s
+  namespace: chessk8s
   labels:
     app: chessk8s-frontend
 spec:
@@ -85,7 +85,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: chessk8s-frontend
-  namespace: ChessK8s
+  namespace: chessk8s
 spec:
   selector:
     app: chessk8s-frontend
@@ -99,7 +99,7 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: ChessK8s
+  namespace: chessk8s
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -116,7 +116,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: chessk8s-ingress
-  namespace: ChessK8s
+  namespace: chessk8s
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: "nginx"
