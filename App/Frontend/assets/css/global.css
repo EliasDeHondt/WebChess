@@ -1,0 +1,75 @@
+/**
+ * @author Elias De Hondt
+ * @see https://eliasdh.com
+ * @since 01/01/2025
+ */
+
+/* Root */
+:root[data-theme="dark"] {
+    --text: #edeff2;
+    --background: #060709;
+    --primary: #0f54ae;
+    --secondary: #818a92;
+    --accent: #3d587b;
+}
+
+:root[data-theme="light"] {
+    --text: #0c0e11;
+    --background: #f6f7f9;
+    --primary: #4f94f0;
+    --secondary: #6c757d;
+    --accent: #829ec2;
+}
+/* Root */
+
+/* Global */
+body {
+    background-color: var(--background);
+    font-family: Arial;
+    cursor: url('https://eliasdh.com/assets/media/images/cursor.png'), auto;
+}
+/* Global */
+
+/* Footer */
+.footer {
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* Footer */
+
+/* Button */
+.index-button {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+/* Button */
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary);
+}
+/* Scrollbar */
+
+/* Selectioncoler */
+::selection {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+/* Selectioncoler */

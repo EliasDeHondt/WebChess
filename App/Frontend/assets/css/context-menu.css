@@ -1,0 +1,58 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+@import url('/App/Frontend/assets/css/global.css');
+
+/* Context Menu */
+.context-menu {
+    position: absolute;
+    cursor: pointer;
+    display: none;
+}
+
+.context-menu-item {
+    background-color: var(--accent);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    list-style: none;
+}
+
+.context-menu-item p {
+    color: var(--text);
+}
+
+.context-menu-item i {
+    color: var(--secondary);
+    margin-right: 10px;
+}
+
+.context-menu-item i:hover {
+    color: var(--accent);
+}
+
+.context-menu-item li {
+    font: inherit;
+    border: 0;
+    padding: 0px 15px 0px 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: unset;
+    font-weight: 500;
+    transition: 0.5s linear;
+    -webkit-transition: 0.5s linear;
+    -moz-transition: 0.5s linear;
+    -ms-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+}
+
+.context-menu-item li:hover {
+    background-color: var(--background);
+    border-radius: 10px;
+}
+/* Context Menu */

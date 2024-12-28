@@ -22,8 +22,14 @@ Please also see following documents:
 
 ## 📚How to deploy
 
+- Step 1: Deploy the application:
 ```bash
-sudo helm install ...
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/ChessK8s.yaml
+```
+
+- Step 2: Get the external IP of the application:
+```bash
+kubectl get svc -n k10s-namespaces
 ```
 
 ## 🔗Links

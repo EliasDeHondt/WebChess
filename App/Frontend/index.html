@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--Author Elias De Hondt-->
+<html class="index-html" lang="en">
+    <head>
+        <!--Meta + Title-->
+        <meta charset="utf-8">
+        <title>Chess - EliasDH</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Welcome to EliasDH Chess! Play chess with your friends or against the computer.">
+        <!--Meta + Title-->
+        <!--Progressive Web App (PWA) Metadata-->
+        <meta name="theme-color" content="#4f94f0">
+        <link rel="manifest" href="/App/Frontend/manifest.json">
+        <link rel="apple-touch-icon" href="https://eliasdh.com/assets/media/images/icon-192x192.png">
+        <!--Progressive Web App (PWA) Metadata-->
+        <!--Favicon-->
+        <link rel="icon" href="https://eliasdh.com/assets/media/images/favicon.ico">
+        <!--Favicon-->
+        <!--CSS-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="/App/Frontend/assets/css/style.css">
+        <link rel="stylesheet" href="/App/Frontend/assets/css/context-menu.css">
+        <!--CSS-->
+    </head>
+    <body class="index-body">
+        <!--Header-->
+        <header class="index-header">
+            <div class="index-header-bar">
+                <img src="https://eliasdh.com/assets/media/images/icon-192x192.png" alt="EliasDH Chess" class="index-logo" onclick="window.location.href='https://eliasdh.com'">
+                <div class="index-title">EliasDH Chess</div>
+            </div>
+        </header>
+        <!--Header-->
+        <!--Main-->
+        <main class="index-main">
+            <section>
+                <article>
+                    <div class="index-chessboard" id="chessboard"></div>
+                </article>
+                <article class="index-article">
+                    <button class="index-button" id="reset-button" onclick="resetChessboard()">Reset</button>
+                </article>
+            </section>
+        </main>
+        <!--Main-->
+        <!--Context Menu-->
+        <section class="context-menu" id="context-menu"></section>
+        <!--Context Menu-->
+        <!--Footer-->
+        <footer class="footer" id="footer"></footer>
+        <!--Footer-->
+        <!--JS-->
+        <script src="/App/Frontend/assets/js/main.js"></script>
+        <script src="/App/Frontend/assets/js/index.js"></script>
+        <!--JS-->
+    </body>
+</html>

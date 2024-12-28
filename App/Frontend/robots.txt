@@ -1,0 +1,7 @@
+User-agent: *
+Allow: index.html
+Disallow: /App/Frontend/assets/
+
+Sitemap: https://chess.eliasdh.com/sitemap.xml
+
+Crawl-delay: 5

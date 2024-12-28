@@ -1,0 +1,21 @@
+{
+    "name": "EliasDH Chess",
+    "short_name": "EliasDH Chess",
+    "description": "Welcome to EliasDH Chess! Play chess with your friends or against the computer.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#6c757d",
+    "theme_color": "#4F94F0",
+    "icons": [
+        {
+            "src": "https://eliasdh.com/assets/media/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://eliasdh.com/assets/media/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
