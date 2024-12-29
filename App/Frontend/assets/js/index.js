@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadExternalContent("context-menu", "https://eliasdh.com/assets/includes/context-menu.html");
     loadExternalContent("footer", "https://eliasdh.com/assets/includes/external-footer.html");
     loadChessboard();
+    setInterval(loadChessboard, 2000); // Refresh the chessboard every 2 seconds
 });
 
 // Reset the chessboard
@@ -163,16 +164,11 @@ async function makeMove(source, target, piece) {
     }
 }
 
-function showPromotionPopup() {
-    document.getElementById('promotion-popup').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-}
-
-function hidePromotionPopup() {
-    document.getElementById('promotion-popup').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+function togglePromotionPopup() {
+    const popup = document.getElementById('promotion-popup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
 }
 
 function promotePawn(piece) {
-    hidePromotionPopup();
+    togglePromotionPopup();
 }

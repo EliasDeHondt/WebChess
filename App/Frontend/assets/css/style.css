@@ -115,7 +115,7 @@ body {
     background-color: var(--accent);
 }
 
-#promotion-popup {
+.index-promotion-popup {
     background-color: var(--primary);
     color: var(--text);
     position: fixed;
@@ -131,18 +131,18 @@ body {
     display: none;
 }
 
-#promotion-popup p {
+.index-promotion-popup p {
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-#promotion-popup .index-button {
+.index-promotion-popup .index-button {
     background-color: var(--accent);
     color: var(--text);
     padding: 10px 7px;
     margin: 5px;
 }
-#overlay {
+.index-overlay {
     position: fixed;
     top: 0;
     left: 0;
