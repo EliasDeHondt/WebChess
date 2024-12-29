@@ -28,6 +28,23 @@ async function resetChessboard() {
     }
 }
 
+// Undo the last move
+async function Undo() {
+    try {
+        const response = await fetch('http://localhost:5000/undo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') loadChessboard();
+        else alert('There is a problem undoing the move.');
+
+    } catch (error) {
+        console.error('Error while undoing the move:', error);
+    }
+}
+
 // Images for the chess pieces
 const pieceImages = {
     'R': 'rook-dark.png',
@@ -114,11 +131,16 @@ function onDragOver(event) {
 function onDrop(event) {
     event.preventDefault();
 
+    let targetElement = event.target;
+    if (targetElement.tagName === 'IMG') {
+        targetElement = targetElement.parentElement;
+    }
+
     const piece = event.dataTransfer.getData('text/plain');
     const source = JSON.parse(event.dataTransfer.getData('source'));
     const target = {
-        row: event.target.dataset.row,
-        col: event.target.dataset.col,
+        row: targetElement.dataset.row,
+        col: targetElement.dataset.col,
     };
 
     makeMove(source, target, piece);
@@ -139,4 +161,18 @@ async function makeMove(source, target, piece) {
     } catch (error) {
         console.error('Error making move:', error);
     }
+}
+
+function showPromotionPopup() {
+    document.getElementById('promotion-popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function hidePromotionPopup() {
+    document.getElementById('promotion-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function promotePawn(piece) {
+    hidePromotionPopup();
 }

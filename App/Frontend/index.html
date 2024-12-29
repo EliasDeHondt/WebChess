@@ -33,13 +33,22 @@
         <!--Header-->
         <!--Main-->
         <main class="index-main">
+            <div id="overlay"></div>
+            <section id="promotion-popup">
+                <p>Choose a piece to promote your pawn:</p>
+                <button class="index-button" onclick="promotePawn('Q')">Queen</button>
+                <button class="index-button" onclick="promotePawn('R')">Rook</button>
+                <button class="index-button" onclick="promotePawn('B')">Bishop</button>
+                <button class="index-button" onclick="promotePawn('N')">Knight</button>
+            </section>
             <section>
                 <article>
                     <div class="index-chessboard" id="chessboard"></div>
                 </article>
                 <article class="index-article">
-                    <button class="index-button" id="flip-button" onclick="flipBoard()">Flip Board</button>
-                    <button class="index-button" id="reset-button" onclick="resetChessboard()">Reset</button>
+                    <button class="index-button" onclick="flipBoard()">Flip Board</button>
+                    <button class="index-button" onclick="resetChessboard()">Reset</button>
+                    <button class="index-button" onclick="Undo()">Undo</button>
                 </article>
             </section>
         </main>

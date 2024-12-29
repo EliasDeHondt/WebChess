@@ -10,6 +10,7 @@ import copy                                 # type: ignore
 app = Flask(__name__)
 CORS(app)
 
+move_history = []
 initial_state = [
     ["R", "N", "B", "Q", "K", "B", "N", "R"],
     ["P", "P", "P", "P", "P", "P", "P", "P"],
@@ -29,22 +30,46 @@ def reset_chessboard():
     chessboard_state = copy.deepcopy(initial_state)
     return jsonify({'status': 'success', 'chessboard': chessboard_state})
 
+@app.route('/undo', methods=['POST'])
+def undo_move():
+    global move_history
+    if not move_history:
+        return jsonify({'status': 'failure', 'message': 'No moves to undo'}), 400
+
+    last_move = move_history.pop()
+
+    source = last_move['source']
+    target = last_move['target']
+    piece = last_move['piece']
+    captured = last_move['captured']
+
+    chessboard_state[int(source['row'])][int(source['col'])] = piece
+    chessboard_state[int(target['row'])][int(target['col'])] = captured
+
+    return jsonify({'status': 'success', 'chessboard': chessboard_state})
+
 @app.route('/chessboard', methods=['GET'])
 def get_chessboard():
     return jsonify(chessboard_state)
 
 @app.route('/move', methods=['POST'])
 def move_piece():
+    global move_history
     data = request.get_json()
     source = data['source']
     target = data['target']
     piece = data['piece']
 
-    print(f"Source: {source}, Target: {target}, Piece: {piece}")
-
     if is_valid_move(source, target, piece):
         target_piece = chessboard_state[int(target['row'])][int(target['col'])]
-        
+
+        move_history.append({
+            'source': source,
+            'target': target,
+            'piece': piece,
+            'captured': target_piece
+        })
+
         if target_piece != "":
             chessboard_state[int(target['row'])][int(target['col'])] = ""
 
