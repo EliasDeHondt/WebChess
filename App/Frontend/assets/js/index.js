@@ -6,7 +6,7 @@
 
 // Load external content
 document.addEventListener('DOMContentLoaded', function() {
-    loadExternalContent("context-menu", "/App/Frontend/assets/includes/context-menu.html");
+    loadExternalContent("context-menu", "https://eliasdh.com/assets/includes/context-menu.html");
     loadExternalContent("footer", "https://eliasdh.com/assets/includes/external-footer.html");
     loadChessboard();
 });

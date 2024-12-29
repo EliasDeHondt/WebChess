@@ -4,7 +4,34 @@
  * @since 01/01/2025
  */
 
-@import url('/App/Frontend/assets/css/global.css');
+@import url('https://eliasdh.com/assets/css/global.css');
+
+/* Global */
+body {
+    background-color: var(--background);
+}
+/* Global */
+
+/* Footer */
+.footer {
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* Footer */
+
+/* Button */
+.index-button {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+/* Button */
 
 .index-html, .index-body {
     margin: 0;
