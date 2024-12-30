@@ -10,7 +10,6 @@ import copy                                 # type: ignore
 app = Flask(__name__)
 CORS(app)
 
-move_history = []
 initial_state = [
     ["R", "N", "B", "Q", "K", "B", "N", "R"],
     ["P", "P", "P", "P", "P", "P", "P", "P"],
@@ -22,17 +21,21 @@ initial_state = [
     ["r", "n", "b", "q", "k", "b", "n", "r"],
 ]
 
-chessboard_state =  copy.deepcopy(initial_state)
+chessboard_state = copy.deepcopy(initial_state)
+current_player = 'white'
+move_history = []
 
 @app.route('/reset', methods=['POST'])
 def reset_chessboard():
-    global chessboard_state
+    global chessboard_state, current_player, move_history
     chessboard_state = copy.deepcopy(initial_state)
-    return jsonify({'status': 'success', 'chessboard': chessboard_state})
+    current_player = 'white'
+    move_history = []
+    return jsonify({'status': 'success', 'chessboard': chessboard_state, 'current_player': current_player})
 
 @app.route('/undo', methods=['POST'])
 def undo_move():
-    global move_history
+    global move_history, current_player
     if not move_history:
         return jsonify({'status': 'failure', 'message': 'No moves to undo'}), 400
 
@@ -46,15 +49,17 @@ def undo_move():
     chessboard_state[int(source['row'])][int(source['col'])] = piece
     chessboard_state[int(target['row'])][int(target['col'])] = captured
 
-    return jsonify({'status': 'success', 'chessboard': chessboard_state})
+    current_player = 'white' if current_player == 'black' else 'black'
+
+    return jsonify({'status': 'success', 'chessboard': chessboard_state, 'current_player': current_player})
 
 @app.route('/chessboard', methods=['GET'])
 def get_chessboard():
-    return jsonify(chessboard_state)
+    return jsonify({'chessboard': chessboard_state, 'current_player': current_player})
 
 @app.route('/move', methods=['POST'])
 def move_piece():
-    global move_history
+    global move_history, current_player
     data = request.get_json()
     source = data['source']
     target = data['target']
@@ -76,7 +81,9 @@ def move_piece():
         chessboard_state[int(target['row'])][int(target['col'])] = piece
         chessboard_state[int(source['row'])][int(source['col'])] = ""
 
-        return jsonify({'status': 'success', 'chessboard': chessboard_state})
+        current_player = 'white' if current_player == 'black' else 'black'
+
+        return jsonify({'status': 'success', 'chessboard': chessboard_state, 'current_player': current_player})
     else:
         return jsonify({'status': 'invalid_move'}), 400
 

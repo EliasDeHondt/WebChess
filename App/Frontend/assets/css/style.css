@@ -22,7 +22,8 @@ body {
 /* Button */
 .index-button {
     background-color: var(--primary);
-    color: var(--text);
+    color: var(--background);
+    font-weight: bold;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;

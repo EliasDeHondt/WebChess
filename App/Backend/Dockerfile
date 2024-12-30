@@ -9,6 +9,7 @@ FROM python:3.9-slim
 LABEL maintainer="Elias De Hondt <elias.dehondt@outlook.com>"
 LABEL version="1.0"
 LABEL description="This is the backend image for the app."
+LABEL org.opencontainers.image.description="This is the backend image for the app."
 
 WORKDIR /app
 
@@ -20,4 +21,4 @@ COPY . /app/
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["python", "app.py", "run", "--host=0.0.0.0"]
