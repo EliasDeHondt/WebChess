@@ -66,6 +66,16 @@ def move_piece():
     piece = data['piece']
 
     if is_valid_move(source, target, piece):
+        if piece in ('k', 'K') and abs(int(target['col']) - int(source['col'])) == 2:
+            # Handle castling move
+            row = int(source['row'])
+            rook_col = 0 if int(target['col']) < int(source['col']) else 7
+            rook_target_col = 3 if int(target['col']) < int(source['col']) else 5
+
+            # Move the rook
+            chessboard_state[row][rook_target_col] = chessboard_state[row][rook_col]
+            chessboard_state[row][rook_col] = ""
+
         target_piece = chessboard_state[int(target['row'])][int(target['col'])]
 
         move_history.append({
@@ -75,17 +85,25 @@ def move_piece():
             'captured': target_piece
         })
 
+        # Check for promotion
+        if piece.lower() == 'p' and int(target['row']) in (0, 7):
+            return jsonify({'status': 'promotion', 'target': target})
+
         if target_piece != "":
             chessboard_state[int(target['row'])][int(target['col'])] = ""
 
         chessboard_state[int(target['row'])][int(target['col'])] = piece
         chessboard_state[int(source['row'])][int(source['col'])] = ""
 
+        # Check for king-in-check
+        king_in_check = check_king_in_check()
+
         current_player = 'white' if current_player == 'black' else 'black'
 
-        return jsonify({'status': 'success', 'chessboard': chessboard_state, 'current_player': current_player})
+        return jsonify({'status': 'success', 'chessboard': chessboard_state, 'current_player': current_player, 'king_in_check': king_in_check})
     else:
         return jsonify({'status': 'invalid_move'}), 400
+
 
 def is_valid_move(source, target, piece):
     row_diff = int(target['row']) - int(source['row'])
@@ -97,6 +115,10 @@ def is_valid_move(source, target, piece):
     # Ensure the move does not capture an allied piece
     if (piece.islower() and target_piece.islower()) or (piece.isupper() and target_piece.isupper()):
         return False
+
+    # Validate castling
+    if piece in ('k', 'K') and abs(col_diff) == 2:
+        return is_castling(source, target, piece)
 
     # Validate piece-specific movement
     if piece == 'p' or piece == 'P':  # Pawn
@@ -116,19 +138,97 @@ def is_valid_move(source, target, piece):
         return max(abs(row_diff), abs(col_diff)) == 1
     return False
 
+
+rook_moved = {
+    'white': {'kingside': False, 'queenside': False},
+    'black': {'kingside': False, 'queenside': False},
+}
+
+def is_rook_castling_eligible(row, rook_col):
+    global move_history
+    rook_piece = chessboard_state[row][rook_col]
+    if rook_piece not in ('r', 'R'):
+        return False
+    
+    # Check if rook has moved by examining the move history
+    for move in move_history:
+        if (
+            int(move['source']['row']) == row
+            and int(move['source']['col']) == rook_col
+        ):
+            return False
+    return True
+
+def check_king_in_check():
+    global chessboard_state
+    king_positions = {'white': None, 'black': None}
+
+    # Locate kings
+    for row in range(8):
+        for col in range(8):
+            piece = chessboard_state[row][col]
+            if piece == 'K':
+                king_positions['white'] = {'row': row, 'col': col}
+            elif piece == 'k':
+                king_positions['black'] = {'row': row, 'col': col}
+
+    for color, position in king_positions.items():
+        opponent_color = 'black' if color == 'white' else 'white'
+        if position and is_square_attacked(position, opponent_color):
+            return color
+    return None
+
+def is_square_attacked(position, opponent_color):
+    for row in range(8):
+        for col in range(8):
+            piece = chessboard_state[row][col]
+            if piece == "" or (piece.islower() and opponent_color == 'white') or (piece.isupper() and opponent_color == 'black'):
+                continue
+            if is_valid_move({'row': row, 'col': col}, position, piece):
+                return True
+    return False
+
+def is_castling(source, target, piece):
+    if piece not in ('k', 'K'):
+        return False
+
+    row = int(source['row'])
+    col_diff = int(target['col']) - int(source['col'])
+
+    # Castling requires a 2-square horizontal move
+    if abs(col_diff) != 2:
+        return False
+
+    rook_col = 0 if col_diff < 0 else 7
+
+    # Check if the rook is eligible for castling
+    if not is_rook_castling_eligible(row, rook_col):
+        return False
+
+    # Check if the path between king and rook is clear
+    if not is_path_clear(source, {'row': source['row'], 'col': rook_col}):
+        return False
+
+    # Ensure the king is not in check and does not move through a square under attack
+    if check_king_in_check():  # Use check_king_in_check to check if the king is in check
+        return False
+    return True
+
+
+
 def handle_pawn_move(source, target, piece):
     row_diff = int(target['row']) - int(source['row'])
     col_diff = int(target['col']) - int(source['col'])
 
-    # White pawn moves up, black pawn moves down
     direction = -1 if piece.islower() else 1
     start_row = 6 if piece.islower() else 1
+    last_row = 0 if piece.islower() else 7
 
-    # Normal move (single step forward)
+    # Normal move
     if row_diff == direction and col_diff == 0 and chessboard_state[int(target['row'])][int(target['col'])] == "":
         return True
 
-    # Double step on the first move
+    # Double step
     if (
         row_diff == 2 * direction
         and col_diff == 0
@@ -138,7 +238,7 @@ def handle_pawn_move(source, target, piece):
     ):
         return True
 
-    # Capture move (diagonal)
+    # Capture move
     if (
         row_diff == direction
         and abs(col_diff) == 1
@@ -149,7 +249,43 @@ def handle_pawn_move(source, target, piece):
         )
     ):
         return True
+
+    # En passant
+    if (
+        abs(col_diff) == 1
+        and row_diff == direction
+        and chessboard_state[int(target['row'])][int(target['col'])] == ""
+        and move_history
+        and move_history[-1]['piece'].lower() == 'p'
+        and abs(int(move_history[-1]['source']['row']) - int(move_history[-1]['target']['row'])) == 2
+        and move_history[-1]['target']['row'] == str(int(source['row']))
+        and move_history[-1]['target']['col'] == str(int(target['col']))
+    ):
+        # Remove the captured pawn
+        captured_pawn_row = int(source['row'])
+        captured_pawn_col = int(target['col'])
+        chessboard_state[captured_pawn_row][captured_pawn_col] = ""
+        return True
+
     return False
+
+@app.route('/promote', methods=['POST'])
+def promote_pawn():
+    global chessboard_state
+    data = request.get_json()
+    target = data['target']
+    new_piece = data['piece']
+
+    if new_piece not in ('q', 'r', 'b', 'n', 'Q', 'R', 'B', 'N'):
+        return jsonify({'status': 'invalid_promotion'}), 400
+
+    row = int(target['row'])
+    col = int(target['col'])
+    if chessboard_state[row][col] not in ('p', 'P') or (row != 0 and row != 7):
+        return jsonify({'status': 'invalid_promotion'}), 400
+
+    chessboard_state[row][col] = new_piece
+    return jsonify({'status': 'success', 'chessboard': chessboard_state})
 
 def is_path_clear(source, target):
     row_diff = int(target['row']) - int(source['row'])
