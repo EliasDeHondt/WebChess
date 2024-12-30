@@ -143,6 +143,7 @@ body {
     padding: 10px 7px;
     margin: 5px;
 }
+
 .index-overlay {
     position: fixed;
     top: 0;
@@ -152,4 +153,15 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     display: none;
+}
+
+.index-article p {
+    color: var(--primary);
+    font-size: 16px;
+    margin: 0;
+    padding: 10px;
+}
+
+.index-article .index-current-player {
+    font-weight: bold;
 }
