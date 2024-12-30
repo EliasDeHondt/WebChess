@@ -23,6 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// Victory sound
+function victorySound(play) {
+    const audio = new Audio('https://chess.eliasdh.com/assets/media/audio/victory-sound.mp3');
+    if (play) audio.play();
+    if (!play) audio.pause();
+}
+
 // Show History
 async function history() {
     try {
