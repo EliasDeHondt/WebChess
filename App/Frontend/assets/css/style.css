@@ -21,18 +21,71 @@ body {
 
 /* Button */
 .index-button {
-    background-color: var(--primary);
-    color: var(--background);
+    background-color: var(--accent);
+    color: var(--text);
     font-weight: bold;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
-    margin: 10px;
+    padding: 10px 7px;
+    margin: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 /* Button */
+
+/* Modal */
+.index-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.index-modal-content {
+    background-color: var(--background);
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid var(--primary);
+    width: 90%;
+    max-width: 410px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.index-modal-content h2 {
+    color: var(--primary);
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid var(--primary);
+}
+
+.index-modal-content th, .index-modal-content td {
+    color: var(--text);
+    padding: 10px;
+    border-bottom: 1px solid var(--primary);
+}
+
+.index-close-button {
+    color: var(--primary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.index-close-button:hover, .index-close-button:focus {
+    color: var(--secondary);
+    text-decoration: none;
+}
+/* Modal */
 
 .index-html, .index-body {
     margin: 0;
@@ -71,6 +124,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     margin: 0 auto;
+    user-select: none;
 }
 
 .index-main {
@@ -86,13 +140,55 @@ body {
     justify-content: center;
 }
 
+.index-article span {
+    color: var(--background);
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px;
+    user-select: none;
+}
+
+.index-article .index-icon {
+    background-color: var(--background);
+    border-radius: 16px;
+    padding: 0px;
+    margin: 12px 8px 12px 0px;
+}
+
+.index-article .index-svg {
+    fill: var(--primary);
+    width: 32px;
+    height: 32px;
+    padding: 8px 8px 4px 8px;
+}
+
+.index-article .index-svg:hover {
+    fill: var(--accent);
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+.index-article .index-svg:active {
+    fill: var(--secondary);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.index-section {
+    border-radius: 16px;
+    background-color: var(--primary);
+    padding-left: 8px;
+    padding-right: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 .index-chessboard {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    width: 480px;
-    height: 480px;
-    border: 2px solid #333333;
+    width: 496px;
+    height: 496px;
 }
 
 .chess-piece {
@@ -106,62 +202,14 @@ body {
     width: 60px;
     height: 60px;
     display: inline-block;
+    border-radius: 8px;
+    margin: 1px;
 }
 
 .index-chessboard .index-white {
-    background-color: var(--primary);
+    background-color: var(--accent);
 }
 
 .index-chessboard .index-black {
-    background-color: var(--accent);
-}
-
-.index-promotion-popup {
-    background-color: var(--primary);
-    color: var(--text);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    z-index: 1001;
-    text-align: center;
-    width: 300px;
-    display: none;
-}
-
-.index-promotion-popup p {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.index-promotion-popup .index-button {
-    background-color: var(--accent);
-    color: var(--text);
-    padding: 10px 7px;
-    margin: 5px;
-}
-
-.index-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    display: none;
-}
-
-.index-article p {
-    color: var(--primary);
-    font-size: 16px;
-    margin: 0;
-    padding: 10px;
-}
-
-.index-article .index-current-player {
-    font-weight: bold;
+    background-color: var(--secondary);
 }

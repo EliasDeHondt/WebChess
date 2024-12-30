@@ -17,9 +17,71 @@ function loadExternalContent(DivId, url) {
 document.addEventListener('DOMContentLoaded', function() {
     loadExternalContent("context-menu", "https://eliasdh.com/assets/includes/context-menu.html");
     loadExternalContent("footer", "https://eliasdh.com/assets/includes/external-footer.html");
+    //window.history.pushState(null, '', window.location.href.split('/')[0] + '//' + window.location.href.split('/')[2]);
     loadChessboard();
     setInterval(loadChessboard, 2000); // Refresh the chessboard every 2 seconds
+
 });
+
+// Show History
+async function history() {
+    try {
+        const response = await fetch('http://localhost:5000/history');
+        const moveHistory = await response.json();
+
+        if (moveHistory.length === 0) {
+            alert('No moves have been made yet.');
+            return;
+        }
+
+        const modalContent = moveHistory.map((move, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${move.player}</td>
+                <td>${move.piece}</td>
+                <td>${move.source.row}, ${move.source.col}</td>
+                <td>${move.target.row}, ${move.target.col}</td>
+                <td>${move.captured || '-'}</td>
+            </tr>
+        `).join('');
+
+        const modalHTML = `
+            <div id="index-history-modal" class="index-modal">
+                <div class="index-modal-content">
+                    <span class="index-close-button" onclick="closeModal()">×</span>
+                    <h2>Move History</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Player</th>
+                                <th>Piece</th>
+                                <th>Source</th>
+                                <th>Target</th>
+                                <th>Captured</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${modalContent}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        document.getElementById('index-history-modal').style.display = 'block';
+
+    } catch (error) {
+        console.error('Error showing history:', error);
+    }
+}
+
+// Close the modal
+function closeModal() {
+    const modal = document.getElementById('index-history-modal');
+    if (modal) modal.remove();
+}
 
 // Reset the chessboard
 async function resetChessboard() {
@@ -39,7 +101,7 @@ async function resetChessboard() {
 }
 
 // Undo the last move
-async function Undo() {
+async function undo() {
     try {
         const response = await fetch('http://localhost:5000/undo', {
             method: 'POST',
@@ -92,7 +154,7 @@ async function loadChessboard() {
         const response = await fetch('http://localhost:5000/chessboard');
         const { chessboard: chessboardState, current_player } = await response.json();
 
-        document.getElementById('index-current-player').innerText = current_player.charAt(0).toUpperCase() + current_player.slice(1);
+        document.getElementById('index-top-info-box').innerText = 'Current Player: ' + current_player.charAt(0).toUpperCase() + current_player.slice(1);
 
         const chessboard = document.getElementById('chessboard');
         chessboard.innerHTML = '';
@@ -109,11 +171,21 @@ async function loadChessboard() {
                     pieceElement.src = `/App/Frontend/assets/media/images/${pieceImages[piece]}`;
                     pieceElement.alt = piece;
                     pieceElement.classList.add('chess-piece');
-                    pieceElement.draggable = true;
                     pieceElement.dataset.piece = piece;
 
-                    if (current_player === 'white' && piece === piece.toUpperCase()) pieceElement.draggable = false;
-                    if (current_player === 'black' && piece === piece.toLowerCase()) pieceElement.draggable = false;
+                    if (current_player === 'white' && isFlipped === false) {
+                        if (piece === piece.toUpperCase()) pieceElement.draggable = false;
+                        if (piece === piece.toLowerCase()) pieceElement.draggable = true;
+                    } if (current_player === 'white' && isFlipped === true) {
+                        if (piece === piece.toUpperCase()) pieceElement.draggable = false;
+                        if (piece === piece.toLowerCase()) pieceElement.draggable = false;
+                    } if (current_player === 'black' && isFlipped === false) {
+                        if (piece === piece.toUpperCase()) pieceElement.draggable = false;
+                        if (piece === piece.toLowerCase()) pieceElement.draggable = false;
+                    } if (current_player === 'black' && isFlipped === true) {
+                        if (piece === piece.toUpperCase()) pieceElement.draggable = true;
+                        if (piece === piece.toLowerCase()) pieceElement.draggable = false;
+                    }
                     
                     pieceElement.addEventListener('dragstart', onDragStart);
                     square.appendChild(pieceElement);
@@ -187,22 +259,43 @@ async function makeMove(source, target, piece) {
     }
 }
 
+function togglePromotionModal(target) {
+    const modalHTML = `
+        <div id="index-history-modal" class="index-modal">
+            <div class="index-modal-content">
+                <span class="index-close-button" onclick="closePromotionModal()">×</span>
+                <h2>Promote Your Pawn</h2>
+                <p>Choose a piece to promote your pawn:</p>
+                <div class="promotion-options">
+                    <button class="index-button" onclick="promotePawn('Q')">Queen</button>
+                    <button class="index-button" onclick="promotePawn('R')">Rook</button>
+                    <button class="index-button" onclick="promotePawn('B')">Bishop</button>
+                    <button class="index-button" onclick="promotePawn('N')">Knight</button>
+                </div>
+            </div>
+        </div>
+    `;
 
-function togglePromotionPopup(target) {
-    const popup = document.getElementById('promotion-popup');
-    popup.style.display = 'block';
-    popup.dataset.target = JSON.stringify(target);
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById('index-history-modal').style.display = 'block';
+
+    console.log(target);
+    const modal = document.getElementById('index-history-modal');
+    modal.dataset.target = JSON.stringify(target);
+}
+
+function closePromotionModal() {
+    const modal = document.getElementById('index-history-modal');
+    if (modal) modal.remove();
 }
 
 function promotePawn(piece) {
-    const popup = document.getElementById('promotion-popup');
-    const target = JSON.parse(popup.dataset.target);
+    const modal = document.getElementById('index-history-modal');
+    const target = JSON.parse(modal.dataset.target);
 
     // Send move with promotion
     makeMove({ row: target.row - 1, col: target.col }, target, piece);
-
-    // Close popup
-    popup.style.display = 'none';
+    closePromotionModal()
 }
 
 
@@ -233,4 +326,3 @@ function highlightKingInCheck() {
         }
     });
 }
-

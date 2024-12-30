@@ -4,7 +4,7 @@
     <head>
         <!--Meta + Title-->
         <meta charset="utf-8">
-        <title>Chess - EliasDH</title>
+        <title>EliasDH - Chess</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Welcome to EliasDH Chess! Play chess with your friends or against the computer.">
         <!--Meta + Title-->
@@ -32,25 +32,34 @@
         <!--Header-->
         <!--Main-->
         <main class="index-main">
-            <div class="index-overlay" id="overlay"></div>
-            <section class="index-promotion-popup" id="promotion-popup" style="display: none;">
-                <p>Choose a piece to promote your pawn:</p>
-                <button class="index-button" onclick="promotePawn('Q')">Queen</button>
-                <button class="index-button" onclick="promotePawn('R')">Rook</button>
-                <button class="index-button" onclick="promotePawn('B')">Bishop</button>
-                <button class="index-button" onclick="promotePawn('N')">Knight</button>
-            </section>
-            <section>
+            <section class="index-section">
                 <article class="index-article">
-                    <p>Current Player: <span class="index-current-player" id="index-current-player">Loading...</span></p>
+                    <span class="index-top-info-box" id="index-top-info-box">Loading...</span>
                 </article>
                 <article>
                     <div class="index-chessboard" id="chessboard"></div>
                 </article>
                 <article class="index-article">
-                    <button class="index-button" onclick="flipBoard()">Flip Board</button>
-                    <button class="index-button" onclick="resetChessboard()">Reset</button>
-                    <button class="index-button" onclick="Undo()">Undo</button>
+                    <section class="index-icon" onclick="history()" title="History">
+                        <svg class="index-svg" viewBox="0 0 24 24">
+                            <path d="M5.01112 11.5747L6.29288 10.2929C6.68341 9.90236 7.31657 9.90236 7.7071 10.2929C8.09762 10.6834 8.09762 11.3166 7.7071 11.7071L4.7071 14.7071C4.51956 14.8946 4.26521 15 3.99999 15C3.73477 15 3.48042 14.8946 3.29288 14.7071L0.292884 11.7071C-0.0976406 11.3166 -0.0976406 10.6834 0.292884 10.2929C0.683408 9.90236 1.31657 9.90236 1.7071 10.2929L3.0081 11.5939C3.22117 6.25933 7.61317 2 13 2C18.5229 2 23 6.47715 23 12C23 17.5228 18.5229 22 13 22C9.85817 22 7.05429 20.5499 5.22263 18.2864C4.87522 17.8571 4.94163 17.2274 5.37096 16.88C5.80028 16.5326 6.42996 16.599 6.77737 17.0283C8.24562 18.8427 10.4873 20 13 20C17.4183 20 21 16.4183 21 12C21 7.58172 17.4183 4 13 4C8.72441 4 5.23221 7.35412 5.01112 11.5747ZM13 5C13.5523 5 14 5.44772 14 6V11.5858L16.7071 14.2929C17.0976 14.6834 17.0976 15.3166 16.7071 15.7071C16.3166 16.0976 15.6834 16.0976 15.2929 15.7071L12.2929 12.7071C12.1054 12.5196 12 12.2652 12 12V6C12 5.44772 12.4477 5 13 5Z">
+                        </svg>
+                    </section>
+                    <section class="index-icon" onclick="flipBoard()" title="Flip Board">
+                        <svg class="index-svg" viewBox="0 0 24 24">
+                            <path d="M20 18v-5h3v-2h-3V6c0-1.105-.895-2-2-2H6c-1.105 0-2 .895-2 2v5H1v2h3v5c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2zM6 6h12v5H6V6z"></path>
+                        </svg>
+                    </section>
+                    <section class="index-icon" onclick="resetChessboard()" title="Reset">
+                        <svg class="index-svg" viewBox="0 0 1920 1920">
+                            <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0">
+                        </svg>
+                    </section>
+                    <section class="index-icon" onclick="undo()" title="Undo">
+                        <svg class="index-svg" viewBox="0 0 20 20">
+                            <path d="M12 5H7V2L1 6l6 4V7h5c2.2 0 4 1.8 4 4s-1.8 4-4 4H7v2h5c3.3 0 6-2.7 6-6s-2.7-6-6-6z">
+                        </svg>
+                    </section>
                 </article>
             </section>
         </main>

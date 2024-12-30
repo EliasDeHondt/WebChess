@@ -25,6 +25,10 @@ chessboard_state = copy.deepcopy(initial_state)
 current_player = 'white'
 move_history = []
 
+@app.route('/history', methods=['GET'])
+def get_move_history():
+    return jsonify(move_history)
+
 @app.route('/reset', methods=['POST'])
 def reset_chessboard():
     global chessboard_state, current_player, move_history
@@ -79,6 +83,7 @@ def move_piece():
         target_piece = chessboard_state[int(target['row'])][int(target['col'])]
 
         move_history.append({
+            'player': current_player,
             'source': source,
             'target': target,
             'piece': piece,
