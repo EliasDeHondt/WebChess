@@ -9,6 +9,7 @@ FROM nginx:alpine
 LABEL maintainer="Elias De Hondt <elias.dehondt@outlook.com>"
 LABEL version="1.0"
 LABEL description="This is the frontend image for the app."
+LABEL org.opencontainers.image.description="This is the frontend image for the app."
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./default.conf /etc/nginx/conf.d/default.conf

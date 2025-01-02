@@ -3,7 +3,7 @@
 # @see https://eliasdh.com #
 # @since 01/01/2025        #
 ############################
-# Ignore default
+# Docker ignore file
 /.git
 /.github
 /.vscode

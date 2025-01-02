@@ -39,18 +39,6 @@ kubectl get ingress
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/kubernetes.yaml
 ```
 
-### 🚀Docker
-
-- Step 1: Deploy the application:
-```bash
-curl -s https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Docker/compose.yaml | sudo docker compose -f - up -d
-```
-
-- If you want to delete the deployment:
-```bash
-curl -s https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Docker/compose.yaml | sudo docker compose -f - down
-```
-
 ## 🔗Links
 - 👯 Web hosting company [EliasDH.com](https://eliasdh.com).
 - 📫 How to reach us elias.dehondt@outlook.com
