@@ -5,8 +5,7 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Introduction](#🖖introduction)
-3. [📚How to deploy](#📚how-to-deploy)
-4. [🔗Links](#🔗links)
+3. [🔗Links](#🔗links)
 
 ---
 
@@ -19,25 +18,6 @@ Please also see following documents:
 - [SECURITY](SECURITY.md)
 - [CONTRIBUTING](CONTRIBUTING.md)
 - [CODE OF CONDUCT](CODE-OF-CONDUCT.md)
-
-## 📚How to deploy
-
-### 🚀Kubernetes
-
-- Step 1: Deploy the application:
-```bash
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/kubernetes.yaml
-```
-
-- Step 2: Get the ingress:
-```bash
-kubectl get ingress
-```
-
-- If you want to delete the deployment:
-```bash
-kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/ChessK8s/refs/heads/main/Kubernetes/kubernetes.yaml
-```
 
 ## 🔗Links
 - 👯 Web hosting company [EliasDH.com](https://eliasdh.com).
